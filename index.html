@@ -1,64 +1,573 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outpartners Financial Technology</title>
+    <title>Outpartners - Auditoria Industrial e Automações</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    <!-- Overlay tecnológico -->
     <div class="overlay"></div>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="#">Outpartners Financial Technology</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <img src="Logo.png" alt="Outpartners Logo" class="navbar-logo">
+                Outpartners
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Serviços</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Portfólio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Depoimentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contato</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
-    <div class="jumbotron text-center">
-        <h1 class="display-4">Outpartners Financial Technology</h1>
-        <p class="lead">Perícia e Auditoria Financeira</p>
-    </div>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-8 mx-auto text-center">
+                    <div class="hero-content" data-aos="fade-in" data-aos-duration="1000">
+                        <h1 class="hero-title">
+                            Soluções Inteligentes para o Seu Negócio
+                        </h1>
+                        <p class="hero-subtitle">
+                            Desenvolvemos tecnologia sob medida para transformar sua ideia em realidade. 
+                            Especialistas em auditoria industrial e automações.
+                        </p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary btn-lg cta-button">
+                                Saiba Mais
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <p>Para mais informações, entre em contato conosco via WhatsApp:</p>
-                <a class="whatsapp-link" href="https://wa.me/62982368804" target="_blank">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                    (62) 98236-8804
-                </a>
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="800">
+                    <div class="about-visual">
+                        <div class="tech-animation">
+                            <div class="tech-circle">
+                                <i class="fas fa-industry"></i>
+                            </div>
+                            <div class="tech-circle">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="tech-circle">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                    <div class="about-content">
+                        <h2 class="section-title">Sobre Nós</h2>
+                        <p class="about-text">
+                            Somos especialistas em auditoria industrial e automações, com mais de 15 anos de experiência 
+                            no mercado. Nossa missão é transformar processos industriais através de tecnologia avançada 
+                            e soluções inteligentes.
+                        </p>
+                        <p class="about-text">
+                            Oferecemos serviços completos de auditoria, automação de processos, otimização industrial 
+                            e implementação de sistemas IoT para maximizar a eficiência e produtividade do seu negócio.
+                        </p>
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">150+</span>
+                                <span class="stat-label">Projetos Concluídos</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">15+</span>
+                                <span class="stat-label">Anos de Experiência</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center" data-aos="fade-up">
+                    <h2 class="section-title">Nossos Serviços</h2>
+                    <p class="section-subtitle">Soluções completas em auditoria industrial e automações</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card">
+                        <div class="card-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Auditoria Industrial</h3>
+                        <p>Análise técnica especializada em processos industriais, eficiência operacional e otimização de recursos.</p>
+                        <div class="card-stats">
+                            <span class="stat-number">150+</span>
+                            <span class="stat-label">Indústrias Auditadas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card">
+                        <div class="card-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3>Automação de Processos</h3>
+                        <p>Implementação de sistemas automatizados para otimização de processos industriais e aumento da produtividade.</p>
+                        <div class="card-stats">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Aumento de Eficiência</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Otimização Industrial</h3>
+                        <p>Análise profunda de processos industriais, indicadores de performance e otimização de recursos.</p>
+                        <div class="card-stats">
+                            <span class="stat-number">R$ 25M+</span>
+                            <span class="stat-label">Economia Gerada</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Controle de Qualidade</h3>
+                        <p>Implementação de sistemas de controle de qualidade e monitoramento de processos industriais.</p>
+                        <div class="card-stats">
+                            <span class="stat-number">99.8%</span>
+                            <span class="stat-label">Taxa de Qualidade</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-card">
+                        <div class="card-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3>Manutenção Preditiva</h3>
+                        <p>Sistemas inteligentes de manutenção preditiva para evitar paradas não programadas.</p>
+                        <div class="card-stats">
+                            <span class="stat-number">40%</span>
+                            <span class="stat-label">Redução de Paradas</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-card">
+                        <div class="card-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3>IoT Industrial</h3>
+                        <p>Implementação de sistemas IoT para monitoramento em tempo real de equipamentos e processos.</p>
+                        <div class="card-stats">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Monitoramento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center" data-aos="fade-up">
+                    <h2 class="section-title">Portfólio</h2>
+                    <p class="section-subtitle">Projetos que transformaram indústrias</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="portfolio-card" data-toggle="modal" data-target="#portfolioModal1">
+                        <div class="portfolio-image">
+                            <div class="portfolio-overlay">
+                                <i class="fas fa-industry"></i>
+                            </div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h4>Automação Completa - Indústria Metalúrgica</h4>
+                            <p>Implementação de sistema automatizado que aumentou a produtividade em 85%</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="portfolio-card" data-toggle="modal" data-target="#portfolioModal2">
+                        <div class="portfolio-image">
+                            <div class="portfolio-overlay">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h4>IoT Industrial - Fábrica de Alimentos</h4>
+                            <p>Sistema de monitoramento em tempo real com redução de 60% nos custos operacionais</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="portfolio-card" data-toggle="modal" data-target="#portfolioModal3">
+                        <div class="portfolio-image">
+                            <div class="portfolio-overlay">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="portfolio-content">
+                            <h4>Auditoria Industrial - Complexo Petroquímico</h4>
+                            <p>Análise completa de processos com economia de R$ 15 milhões anuais</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center" data-aos="fade-up">
+                    <h2 class="section-title">Depoimentos</h2>
+                    <p class="section-subtitle">O que nossos clientes dizem</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="testimonials-carousel" data-aos="fade-up" data-aos-delay="200">
+                        <div class="testimonial-card active">
+                            <div class="testimonial-content">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">
+                                    "A Outpartners transformou completamente nossa linha de produção. 
+                                    A automação implementada aumentou nossa eficiência em 95% e reduziu 
+                                    custos operacionais significativamente."
+                                </p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="author-info">
+                                        <h5>João Silva</h5>
+                                        <span>Diretor Industrial - Metalúrgica ABC</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">
+                                    "Excelente trabalho na auditoria industrial. A equipe é muito 
+                                    profissional e os resultados superaram nossas expectativas. 
+                                    Recomendo fortemente!"
+                                </p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="author-info">
+                                        <h5>Maria Santos</h5>
+                                        <span>CEO - Indústria XYZ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">
+                                    "A implementação do sistema IoT revolucionou nosso controle de qualidade. 
+                                    Agora temos monitoramento 24/7 e previsibilidade total dos processos."
+                                </p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="author-info">
+                                        <h5>Carlos Oliveira</h5>
+                                        <span>Gerente de Produção - Alimentos DEF</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-controls">
+                        <button class="carousel-btn prev-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="carousel-indicators">
+                            <span class="indicator active" data-slide="0"></span>
+                            <span class="indicator" data-slide="1"></span>
+                            <span class="indicator" data-slide="2"></span>
+                        </div>
+                        <button class="carousel-btn next-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center" data-aos="fade-up">
+                    <h2 class="section-title">Entre em Contato</h2>
+                    <p class="section-subtitle">Estamos prontos para transformar seu negócio</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+                    <div class="contact-form">
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Seu Nome" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Seu Email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Empresa">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="5" placeholder="Sua Mensagem" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="400">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h5>Telefone</h5>
+                                <p>(62) 98236-8804</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h5>WhatsApp</h5>
+                                <p>Atendimento 24/7</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h5>Email</h5>
+                                <p>contato@outpartners.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h5>Localização</h5>
+                                <p>Goiânia, Goiás - Brasil</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-actions">
+                            <a href="https://wa.me/62982368804" class="btn btn-success btn-lg whatsapp-btn" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                                Conversar no WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-brand">
+                        <img src="Logo.png" alt="Outpartners Logo" class="footer-logo">
+                        <h5>Outpartners</h5>
+                        <p>Soluções inteligentes em auditoria industrial e automações.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6>Links Rápidos</h6>
+                    <ul class="footer-links">
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#about">Sobre</a></li>
+                        <li><a href="#services">Serviços</a></li>
+                        <li><a href="#portfolio">Portfólio</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h6>Serviços</h6>
+                    <ul class="footer-links">
+                        <li><a href="#services">Auditoria Industrial</a></li>
+                        <li><a href="#services">Automação de Processos</a></li>
+                        <li><a href="#services">IoT Industrial</a></li>
+                        <li><a href="#services">Manutenção Preditiva</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 mb-4">
+                    <h6>Redes Sociais</h6>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="footer-divider">
+            
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="copyright">
+                        &copy; 2024 Outpartners. Todos os direitos reservados.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Portfolio Modals -->
+    <div class="modal fade" id="portfolioModal1" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Automação Completa - Indústria Metalúrgica</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="portfolio-modal-content">
+                        <div class="modal-image">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <div class="modal-details">
+                            <h6>Desafio</h6>
+                            <p>Linha de produção com baixa eficiência e alto custo operacional.</p>
+                            
+                            <h6>Solução</h6>
+                            <p>Implementação de sistema automatizado completo com IoT e IA.</p>
+                            
+                            <h6>Resultados</h6>
+                            <ul>
+                                <li>Aumento de 85% na produtividade</li>
+                                <li>Redução de 60% nos custos operacionais</li>
+                                <li>Zero paradas não programadas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <footer class="text-center mt-5">
-        <p>&copy; 2024 Outpartners Financial Technology. Todos os direitos reservados.</p>
-    </footer>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
