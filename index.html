@@ -1,580 +1,1138 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outpartners - Auditoria Financeira e Automações</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        html { scroll-behavior: smooth; background-color: #000; }
+        body { overflow-x: hidden; font-family: 'Inter', sans-serif; }
+
+        .schema-line {
+            stroke-dasharray: 220;
+            stroke-dashoffset: 220;
+        }
+
+        .orb-float { animation: orbFloat 6s ease-in-out infinite; }
+        .orb-float-delay { animation: orbFloat 7.5s ease-in-out infinite; animation-delay: 1s; }
+        .orb-float-delay-2 { animation: orbFloat 8.5s ease-in-out infinite; animation-delay: 2s; }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            25%  { transform: translateY(-10px) translateX(4px); }
+            50%  { transform: translateY(6px) translateX(-6px); }
+            75%  { transform: translateY(-6px) translateX(3px); }
+        }
+
+        .reveal-word, .reveal-feature-word { transform: translateY(110%); }
+
+        /* Navbar fixed wrapper */
+        #nav-wrapper {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 1.5rem 1rem 0;
+            z-index: 50;
+        }
+        @media (min-width: 768px) {
+            #nav-wrapper { padding: 2rem 3rem 0; }
+        }
+    </style>
 </head>
+<body class="bg-black antialiased text-white" style="font-family:'Inter',sans-serif">
 
-<body>
-    <!-- Overlay tecnológico -->
-    <div class="overlay"></div>
+<!-- ─── WebGL Background Canvas ───────────────────────────── -->
+<canvas id="bg-canvas" class="fixed inset-0 w-full h-full pointer-events-none" style="z-index:0;transform:scale(1.1)"></canvas>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#home">
-                <img src="Logo.png" alt="Outpartners Logo" class="navbar-logo">
-                Outpartners
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#home">Início</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">Sobre</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#services">Serviços</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#portfolio">Portfólio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#testimonials">Depoimentos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contato</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<!-- ─── NAVBAR ────────────────────────────────────────────── -->
+<div id="nav-wrapper">
+    <div class="max-w-[90rem] mx-auto">
+        <div class="relative rounded-full p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent transition-all duration-500 hover:from-white/30">
+            <header id="main-header" class="flex items-center justify-between px-6 py-4 rounded-full bg-black/40 backdrop-blur-xl border border-white/5" style="box-shadow:0 0 30px rgba(255,255,255,0.02)">
+                <a href="#inicio" class="flex items-center gap-2 z-20 group">
+                    <img src="Logo.png" alt="Outpartners" class="h-10 w-auto opacity-90 group-hover:opacity-100 transition-opacity">
+                    <span class="text-sm font-medium tracking-wide">Outpartners</span>
+                </a>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero-section">
-        <div class="container">
-            <div class="row align-items-center min-vh-100">
-                <div class="col-lg-8 mx-auto text-center">
-                    <div class="hero-content" data-aos="fade-in" data-aos-duration="1000">
-                        <h1 class="hero-title">
-                            Soluções Inteligentes para o Seu Negócio
-                        </h1>
-                        <p class="hero-subtitle">
-                            Desenvolvemos tecnologia sob medida para transformar sua ideia em realidade. 
-                            Especialistas em auditoria financeira e automações.
-                        </p>
-                        <div class="hero-buttons">
-                            <button class="btn btn-primary btn-lg cta-button">
-                                Saiba Mais
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                <nav class="hidden lg:flex items-center gap-10 text-xs tracking-widest font-medium text-gray-400 uppercase">
+                    <a href="#sobre"       class="hover:text-white transition-colors duration-300">Sobre</a>
+                    <a href="#servicos"    class="hover:text-white transition-colors duration-300">Serviços</a>
+                    <a href="#portfolio"   class="hover:text-white transition-colors duration-300">Portfólio</a>
+                    <a href="#depoimentos" class="hover:text-white transition-colors duration-300">Depoimentos</a>
+                    <a href="#contato"     class="hover:text-white transition-colors duration-300">Contato</a>
+                </nav>
 
-    <!-- About Section -->
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="800">
-                    <div class="about-visual">
-                        <div class="tech-animation">
-                            <div class="tech-circle">
-                                <i class="fas fa-industry"></i>
-                            </div>
-                            <div class="tech-circle">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                            <div class="tech-circle">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
-                    <div class="about-content">
-                        <h2 class="section-title">Sobre Nós</h2>
-                        <p class="about-text">
-                            Somos especialistas em auditoria financeira e automações, com mais de 15 anos de experiência 
-                            no mercado. Nossa missão é trazer clareza através de tecnologia avançada 
-                            e soluções inteligentes.
-                        </p>
-                        <p class="about-text">
-                            Oferecemos serviços completos de auditoria, automação de processos, otimização financeira 
-                            e implementação de sistemas ERP's para maximizar a eficiência e produtividade do seu negócio.
-                        </p>
-                        <div class="about-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">100+</span>
-                                <span class="stat-label">Projetos Concluídos</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">15+</span>
-                                <span class="stat-label">Anos de Experiência</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                <a href="https://wa.me/62982368804" target="_blank"
+                   class="hidden md:inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 hover:bg-white/10 px-5 py-2 text-xs font-medium tracking-wide transition-all duration-300 backdrop-blur-sm z-20">
+                    FALAR CONOSCO
+                </a>
 
-    <!-- Services Section -->
-    <section id="services" class="services-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-up">
-                    <h2 class="section-title">Nossos Serviços</h2>
-                    <p class="section-subtitle">Soluções completas em auditoria financeira e automações</p>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="service-card">
-                        <div class="card-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <h3>Auditoria Financeira</h3>
-                        <p>Análise técnica especializada em processos financeiros, eficiência operacional e otimização de recursos.</p>
-                        <div class="card-stats">
-                            <span class="stat-number">150+</span>
-                            <span class="stat-label">Empresas Auditadas</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="service-card">
-                        <div class="card-icon">
-                            <i class="fas fa-cogs"></i>
-                        </div>
-                        <h3>Automação de Processos</h3>
-                        <p>Implementação de sistemas automatizados para otimização de processos financeiros e aumento da produtividade.</p>
-                        <div class="card-stats">
-                            <span class="stat-number">95%</span>
-                            <span class="stat-label">Aumento de Eficiência</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="service-card">
-                        <div class="card-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3>Otimização Financeira</h3>
-                        <p>Análise profunda de processos financeiros, indicadores de performance e otimização de recursos.</p>
-                        <div class="card-stats">
-                            <span class="stat-number">R$ 25M+</span>
-                            <span class="stat-label">Economia Gerada</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
-                    <div class="service-card">
-                        <div class="card-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>Controle de Qualidade</h3>
-                        <p>Implementação de sistemas de controle de qualidade e monitoramento de processos financeiros.</p>
-                        <div class="card-stats">
-                            <span class="stat-number">98%</span>
-                            <span class="stat-label">Taxa de Qualidade</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="500">
-                    <div class="service-card">
-                        <div class="card-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <h3>Manutenção Preditiva</h3>
-                        <p>Sistemas inteligentes de manutenção preditiva para evitar paradas não programadas.</p>
-                        <div class="card-stats">
-                            <span class="stat-number">40%</span>
-                            <span class="stat-label">Redução de Paradas</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="600">
-                    <div class="service-card">
-                        <div class="card-icon">
-                            <i class="fas fa-network-wired"></i>
-                        </div>
-                        <h3>ERP's Financeiros</h3>
-                        <p>Implementação de sistemas ERP's para monitoramento em tempo real de equipamentos e processos.</p>
-                        <div class="card-stats">
-                            <span class="stat-number">150</span>
-                            <span class="stat-label">Monitoramento</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-up">
-                    <h2 class="section-title">Portfólio</h2>
-                    <p class="section-subtitle">Projetos que transformaram indústrias</p>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="portfolio-card" data-toggle="modal" data-target="#portfolioModal1">
-                        <div class="portfolio-image">
-                            <div class="portfolio-overlay">
-                                <i class="fas fa-industry"></i>
-                            </div>
-                        </div>
-                        <div class="portfolio-content">
-                            <h4>Automação Completa - Processos Financeiros</h4>
-                            <p>Implementação de sistema automatizado que aumentou a produtividade em 85%</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="portfolio-card" data-toggle="modal" data-target="#portfolioModal2">
-                        <div class="portfolio-image">
-                            <div class="portfolio-overlay">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                        </div>
-                        <div class="portfolio-content">
-                            <h4>ERP's Financeiros - Grandes Empresas</h4>
-                            <p>Sistema de monitoramento em tempo real com redução de 60% nos custos operacionais</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 mb-4" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="portfolio-card" data-toggle="modal" data-target="#portfolioModal3">
-                        <div class="portfolio-image">
-                            <div class="portfolio-overlay">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                        </div>
-                        <div class="portfolio-content">
-                            <h4>Auditoria Financeira - Agro, Atacadista, Varejo</h4>
-                            <p>Análise completa de processos com economia de R$ 15 milhões anuais</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-up">
-                    <h2 class="section-title">Depoimentos</h2>
-                    <p class="section-subtitle">O que nossos clientes dizem</p>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-12">
-                    <div class="testimonials-carousel" data-aos="fade-up" data-aos-delay="200">
-                        <div class="testimonial-card active">
-                            <div class="testimonial-content">
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <p class="testimonial-text">
-                                    "A Outpartners transformou completamente nossa linha de produção. 
-                                    A automação implementada aumentou nossa eficiência em 95% e reduziu 
-                                    custos operacionais significativamente."
-                                </p>
-                                <div class="testimonial-author">
-                                    <div class="author-avatar">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div class="author-info">
-                                        <h5>Cliente</h5>
-                                        <span>Diretor - Empresa</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <p class="testimonial-text">
-                                    "Excelente trabalho na auditoria Financeira. A equipe é muito 
-                                    profissional e os resultados superaram nossas expectativas. 
-                                    Recomendo fortemente!"
-                                </p>
-                                <div class="testimonial-author">
-                                    <div class="author-avatar">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div class="author-info">
-                                        <h5>Cliente</h5>
-                                        <span>CEO - Empresa</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="testimonial-card">
-                            <div class="testimonial-content">
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <p class="testimonial-text">
-                                    "A implementação do sistema IoT revolucionou nosso controle de qualidade. 
-                                    Agora temos monitoramento 24/7 e previsibilidade total dos processos."
-                                </p>
-                                <div class="testimonial-author">
-                                    <div class="author-avatar">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    <div class="author-info">
-                                        <h5>Cliente</h5>
-                                        <span>Gerente - Empresa</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="carousel-controls">
-                        <button class="carousel-btn prev-btn">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <div class="carousel-indicators">
-                            <span class="indicator active" data-slide="0"></span>
-                            <span class="indicator" data-slide="1"></span>
-                            <span class="indicator" data-slide="2"></span>
-                        </div>
-                        <button class="carousel-btn next-btn">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center" data-aos="fade-up">
-                    <h2 class="section-title">Entre em Contato</h2>
-                    <p class="section-subtitle">Estamos prontos para transformar seu negócio</p>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
-                    <div class="contact-form">
-                        <form>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Seu Nome" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Seu Email" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Empresa">
-                            </div>
-                            <div class="form-group">
-                                <textarea class="form-control" rows="5" placeholder="Sua Mensagem" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                Enviar Mensagem
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                
-                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="400">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h5>Telefone</h5>
-                                <p>(62) 98236-8804</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fab fa-whatsapp"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h5>WhatsApp</h5>
-                                <p>(62) 98236-8804</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h5>Email</h5>
-                                <p>wilton@outpartners.com.br</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h5>Localização</h5>
-                                <p>Goiânia, Goiás - Brasil</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-actions">
-                            <a href="https://wa.me/62982368804" class="btn btn-success btn-lg whatsapp-btn" target="_blank">
-                                <i class="fab fa-whatsapp"></i>
-                                Conversar no WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="footer-brand">
-                        <img src="Logo.png" alt="Outpartners Logo" class="footer-logo">
-                        <h5>Outpartners</h5>
-                        <p>Soluções inteligentes em auditoria financeira e automações.</p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h6>Links Rápidos</h6>
-                    <ul class="footer-links">
-                        <li><a href="#home">Início</a></li>
-                        <li><a href="#about">Sobre</a></li>
-                        <li><a href="#services">Serviços</a></li>
-                        <li><a href="#portfolio">Portfólio</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h6>Serviços</h6>
-                    <ul class="footer-links">
-                        <li><a href="#services">Auditoria Financeira</a></li>
-                        <li><a href="#services">Automação de Processos</a></li>
-                        <li><a href="#services">ERP's Financeiros</a></li>
-                        <li><a href="#services">Manutenção Preditiva</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-3 mb-4">
-                    <h6>Redes Sociais</h6>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <hr class="footer-divider">
-            
-            <div class="row">
-                <div class="col-12 text-center">
-                    <p class="copyright">
-                        &copy; 2024 Outpartners. Todos os direitos reservados.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Portfolio Modals -->
-    <div class="modal fade" id="portfolioModal1" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Automação Completa - Indústria Metalúrgica</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="portfolio-modal-content">
-                        <div class="modal-image">
-                            <i class="fas fa-industry"></i>
-                        </div>
-                        <div class="modal-details">
-                            <h6>Desafio</h6>
-                            <p>Linha de produção com baixa eficiência e alto custo operacional.</p>
-                            
-                            <h6>Solução</h6>
-                            <p>Implementação de sistema automatizado completo com IoT e IA.</p>
-                            
-                            <h6>Resultados</h6>
-                            <ul>
-                                <li>Aumento de 85% na produtividade</li>
-                                <li>Redução de 60% nos custos operacionais</li>
-                                <li>Zero paradas não programadas</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <button id="mobile-menu-btn" class="md:hidden text-white z-20 opacity-80 hover:opacity-100">
+                    <iconify-icon icon="solar:hamburger-menu-linear" width="24" height="24"></iconify-icon>
+                </button>
+            </header>
         </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="script.js"></script>
+<!-- ─── MOBILE MENU ───────────────────────────────────────── -->
+<div id="mobile-menu" class="hidden fixed inset-0 z-40 bg-black/95 backdrop-blur-xl flex-col items-center justify-center gap-8">
+    <button id="mobile-close-btn" class="absolute top-6 right-6 text-gray-400 hover:text-white">
+        <iconify-icon icon="solar:close-circle-linear" width="28" height="28"></iconify-icon>
+    </button>
+    <a href="#sobre"       class="mobile-nav-link text-2xl font-medium tracking-widest text-gray-400 hover:text-white transition-colors uppercase">Sobre</a>
+    <a href="#servicos"    class="mobile-nav-link text-2xl font-medium tracking-widest text-gray-400 hover:text-white transition-colors uppercase">Serviços</a>
+    <a href="#portfolio"   class="mobile-nav-link text-2xl font-medium tracking-widest text-gray-400 hover:text-white transition-colors uppercase">Portfólio</a>
+    <a href="#depoimentos" class="mobile-nav-link text-2xl font-medium tracking-widest text-gray-400 hover:text-white transition-colors uppercase">Depoimentos</a>
+    <a href="#contato"     class="mobile-nav-link text-2xl font-medium tracking-widest text-gray-400 hover:text-white transition-colors uppercase">Contato</a>
+</div>
+
+<!-- ─── PAGE WRAPPER ─────────────────────────────────────── -->
+<div class="max-w-[90rem] mx-auto min-h-screen relative flex flex-col">
+<div class="relative z-10 w-full border-l border-r border-white/5 flex flex-col">
+
+    <!-- Corner squares -->
+    <div class="absolute -top-1 -left-1 w-2 h-2 bg-black border border-white/20"></div>
+    <div class="absolute -top-1 -right-1 w-2 h-2 bg-black border border-white/20"></div>
+
+    <!-- ══════════════════════════════════════════════════
+         HERO
+    ══════════════════════════════════════════════════ -->
+    <section id="inicio" class="flex flex-col justify-center items-end px-6 md:px-12 lg:px-24 w-full relative pb-32 pt-40 min-h-screen">
+
+        <!-- Floating orbs -->
+        <div class="absolute right-[10%] top-[18%] hidden xl:block">
+            <div class="hero-orb orb-float relative w-28 h-28 rounded-full border border-white/10 backdrop-blur-xl"
+                 style="background:linear-gradient(to bottom right,rgba(255,255,255,0.1),rgba(255,255,255,0.02))">
+                <div class="absolute inset-3 rounded-full border border-cyan-400/20"></div>
+                <div class="absolute inset-0 rounded-full blur-sm"
+                     style="background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.18),transparent 28%),radial-gradient(circle at 70% 70%,rgba(6,182,212,.18),transparent 38%)"></div>
+            </div>
+        </div>
+        <div class="absolute left-[10%] bottom-[18%] hidden xl:block">
+            <div class="hero-orb orb-float-delay relative w-20 h-20 rounded-full border border-white/10 backdrop-blur-xl"
+                 style="background:linear-gradient(to bottom right,rgba(20,184,166,0.1),transparent)"></div>
+        </div>
+
+        <div class="w-full max-w-2xl z-10 mr-0 xl:mr-12 text-left">
+            <div class="hero-label flex items-center gap-2 text-xs tracking-widest font-medium text-gray-400 uppercase mb-8">
+                <iconify-icon icon="solar:diamonds-linear" width="14" height="14"></iconify-icon>
+                <span>Auditoria &amp; Automação Financeira</span>
+            </div>
+
+            <h1 id="hero-title" class="text-5xl md:text-6xl lg:text-[5rem] tracking-tight font-medium leading-[1.05] mb-8 text-white flex flex-wrap gap-x-3 gap-y-2 md:gap-x-4">
+                <span style="overflow:hidden;display:inline-flex;vertical-align:top">
+                    <span class="reveal-word pb-2" style="display:inline-block">Soluções</span>
+                </span>
+                <span style="overflow:hidden;display:inline-flex;vertical-align:top">
+                    <span class="reveal-word pb-2" style="display:inline-block">Que</span>
+                </span>
+                <span class="basis-full h-0 m-0 p-0 hidden md:block"></span>
+                <span style="overflow:hidden;display:inline-flex;vertical-align:top">
+                    <span class="reveal-word pb-2" style="display:inline-block">Transformam.</span>
+                </span>
+            </h1>
+
+            <p class="hero-sub text-sm md:text-base text-gray-400 max-w-lg mb-12 leading-relaxed font-normal" style="opacity:.9">
+                Especialistas em auditoria financeira e automação de processos. Transformamos dados em decisões,
+                processos em eficiência e metas em resultados reais.
+            </p>
+
+            <div id="hero-ctas" class="flex flex-wrap items-center gap-4 mt-8" style="opacity:0">
+                <a href="https://wa.me/62982368804" target="_blank"
+                   class="relative group rounded-full p-[1px] transition-colors duration-500"
+                   style="background:linear-gradient(to right,rgba(6,182,212,.6),rgba(20,184,166,.6),rgba(6,182,212,.6))">
+                    <div class="absolute inset-0 rounded-full blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                         style="background:linear-gradient(to right,rgba(6,182,212,.4),rgba(20,184,166,.4))"></div>
+                    <div class="relative bg-black/80 hover:bg-black/60 transition-colors text-white rounded-full px-6 py-3 text-sm font-medium tracking-wide flex items-center gap-2 backdrop-blur-md">
+                        Falar no WhatsApp
+                        <iconify-icon icon="solar:arrow-right-linear" width="16" height="16"></iconify-icon>
+                    </div>
+                </a>
+                <a href="#servicos"
+                   class="px-6 py-3 rounded-full border border-white/10 hover:bg-white/5 text-white text-sm font-medium transition-colors backdrop-blur-sm">
+                    Ver Serviços
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         SOBRE / 3 PILARES
+    ══════════════════════════════════════════════════ -->
+    <section id="sobre" class="relative w-full px-6 md:px-12 lg:px-24 pb-44 pt-12 z-10">
+        <div class="w-full max-w-6xl mx-auto">
+
+            <h2 id="features-title" class="text-3xl md:text-4xl lg:text-5xl tracking-tight font-medium mb-16 text-white flex flex-wrap gap-x-3 gap-y-2">
+                <span style="overflow:hidden;display:inline-flex;vertical-align:top">
+                    <span class="reveal-feature-word pb-1" style="display:inline-block">Expertise</span>
+                </span>
+                <span style="overflow:hidden;display:inline-flex;vertical-align:top">
+                    <span class="reveal-feature-word pb-1" style="display:inline-block">em</span>
+                </span>
+                <span style="overflow:hidden;display:inline-flex;vertical-align:top">
+                    <span class="reveal-feature-word pb-1" style="display:inline-block">profundidade.</span>
+                </span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                <!-- Auditoria -->
+                <div class="parallax-element feature-card group relative rounded-2xl p-[1px] h-full" data-speed="0.07"
+                     style="background:linear-gradient(to bottom,rgba(255,255,255,.15),rgba(255,255,255,.05),transparent)">
+                    <div class="bg-black/60 backdrop-blur-md rounded-2xl p-8 h-full border border-white/5 flex flex-col hover:bg-black/40 transition-colors duration-500">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1"
+                             style="background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.2)">
+                            <iconify-icon icon="solar:chart-linear" width="24" height="24" style="color:#22d3ee"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl tracking-tight font-medium text-white mb-3">Auditoria Financeira</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed font-normal">
+                            Análise técnica especializada em processos financeiros, eficiência operacional e
+                            otimização de recursos com mais de 150 empresas auditadas.
+                        </p>
+                    </div>
+                </div>
+                <!-- Automação -->
+                <div class="parallax-element feature-card group relative rounded-2xl p-[1px] h-full mt-0 md:mt-12" data-speed="0.16"
+                     style="background:linear-gradient(to bottom,rgba(255,255,255,.15),rgba(255,255,255,.05),transparent)">
+                    <div class="bg-black/60 backdrop-blur-md rounded-2xl p-8 h-full border border-white/5 flex flex-col hover:bg-black/40 transition-colors duration-500">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1"
+                             style="background:rgba(20,184,166,.1);border:1px solid rgba(20,184,166,.2)">
+                            <iconify-icon icon="solar:refresh-linear" width="24" height="24" style="color:#2dd4bf"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl tracking-tight font-medium text-white mb-3">Automação de Processos</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed font-normal">
+                            Sistemas automatizados para otimização de processos financeiros e aumento
+                            de até 95% na eficiência operacional.
+                        </p>
+                    </div>
+                </div>
+                <!-- ERP -->
+                <div class="parallax-element feature-card group relative rounded-2xl p-[1px] h-full mt-0 md:mt-24" data-speed="0.24"
+                     style="background:linear-gradient(to bottom,rgba(255,255,255,.15),rgba(255,255,255,.05),transparent)">
+                    <div class="bg-black/60 backdrop-blur-md rounded-2xl p-8 h-full border border-white/5 flex flex-col hover:bg-black/40 transition-colors duration-500">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1"
+                             style="background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2)">
+                            <iconify-icon icon="solar:layers-linear" width="24" height="24" style="color:#67e8f9"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl tracking-tight font-medium text-white mb-3">ERP's Financeiros</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed font-normal">
+                            Implementação de sistemas ERP's para monitoramento em tempo real de
+                            equipamentos e processos financeiros com gestão integrada.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         MÉTRICAS
+    ══════════════════════════════════════════════════ -->
+    <section id="metricas" class="relative w-full px-6 md:px-12 lg:px-24 pb-40 z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="relative rounded-[2rem] p-[1px] overflow-hidden"
+                 style="background:linear-gradient(to bottom,rgba(255,255,255,.15),rgba(255,255,255,.05),transparent)">
+                <div class="absolute inset-0"
+                     style="background:radial-gradient(circle at top left,rgba(6,182,212,.14),transparent 35%),radial-gradient(circle at bottom right,rgba(20,184,166,.12),transparent 35%)"></div>
+                <div class="relative bg-black/60 backdrop-blur-xl rounded-[2rem] border border-white/5 px-8 py-12 md:px-12">
+                    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10">
+
+                        <div class="metrics-copy max-w-xl">
+                            <div class="text-xs tracking-[.25em] uppercase text-gray-500 mb-4">Resultados Reais</div>
+                            <h2 class="text-3xl md:text-5xl tracking-tight leading-[1.05] font-medium mb-5">
+                                15 anos de impacto mensurável.
+                            </h2>
+                            <p class="text-sm md:text-base text-gray-400 leading-relaxed">
+                                Cada projeto entregado resulta em eficiência concreta e processos transformados.
+                                Nossos números falam por si.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 min-w-full lg:min-w-[28rem] lg:max-w-[30rem]">
+                            <div class="stat-card rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md">
+                                <div class="text-xs uppercase tracking-[.2em] text-gray-500 mb-6">Projetos</div>
+                                <div class="text-3xl md:text-4xl font-medium tracking-tight mb-2">100+</div>
+                                <div class="text-sm" style="color:#34d399">concluídos</div>
+                            </div>
+                            <div class="stat-card rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md">
+                                <div class="text-xs uppercase tracking-[.2em] text-gray-500 mb-6">Experiência</div>
+                                <div class="text-3xl md:text-4xl font-medium tracking-tight mb-2">15+</div>
+                                <div class="text-sm" style="color:#2dd4bf">anos no mercado</div>
+                            </div>
+                            <div class="stat-card rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md">
+                                <div class="text-xs uppercase tracking-[.2em] text-gray-500 mb-6">Empresas</div>
+                                <div class="text-3xl md:text-4xl font-medium tracking-tight mb-2">150+</div>
+                                <div class="text-sm" style="color:#22d3ee">auditadas</div>
+                            </div>
+                            <div class="stat-card rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md">
+                                <div class="text-xs uppercase tracking-[.2em] text-gray-500 mb-6">Economia</div>
+                                <div class="text-3xl md:text-4xl font-medium tracking-tight mb-2">R$25M+</div>
+                                <div class="text-sm" style="color:#a5f3fc">gerada p/ clientes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         SERVIÇOS (6 cards)
+    ══════════════════════════════════════════════════ -->
+    <section id="servicos" class="relative w-full px-6 md:px-12 lg:px-24 pb-44 z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="schema-copy mb-14">
+                <div class="text-xs tracking-[.25em] uppercase text-gray-500 mb-4">Nossos Serviços</div>
+                <h2 class="text-3xl md:text-5xl tracking-tight leading-[1.05] font-medium max-w-2xl">
+                    Soluções completas para seu negócio.
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- 1 Auditoria Financeira -->
+                <div class="showcase-card rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-6 md:p-8 overflow-hidden relative group hover:bg-white/[0.06] transition-colors duration-500">
+                    <div class="absolute inset-0" style="background:radial-gradient(circle at 20% 20%,rgba(6,182,212,.12),transparent 28%),radial-gradient(circle at 80% 80%,rgba(20,184,166,.1),transparent 30%)"></div>
+                    <div class="relative">
+                        <div class="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center mb-6 group-hover:border-cyan-400/30 transition-colors">
+                            <iconify-icon icon="solar:chart-linear" width="22" height="22" style="color:#22d3ee"></iconify-icon>
+                        </div>
+                        <div class="text-xs uppercase tracking-[.25em] text-gray-500 mb-2">Financeiro</div>
+                        <h3 class="text-xl tracking-tight font-medium mb-3">Auditoria Financeira</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Análise especializada de processos financeiros e otimização de recursos.</p>
+                        <div class="mt-6 pt-6 border-t border-white/5">
+                            <div class="text-2xl font-medium tracking-tight" style="color:#22d3ee">150+</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1">Empresas Auditadas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2 Automação -->
+                <div class="showcase-card rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-6 md:p-8 overflow-hidden relative group hover:bg-white/[0.06] transition-colors duration-500">
+                    <div class="absolute inset-0" style="background:radial-gradient(circle at 80% 20%,rgba(34,211,238,.12),transparent 26%),radial-gradient(circle at 10% 80%,rgba(6,182,212,.12),transparent 30%)"></div>
+                    <div class="relative">
+                        <div class="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center mb-6 group-hover:border-teal-400/30 transition-colors">
+                            <iconify-icon icon="solar:refresh-linear" width="22" height="22" style="color:#2dd4bf"></iconify-icon>
+                        </div>
+                        <div class="text-xs uppercase tracking-[.25em] text-gray-500 mb-2">Operacional</div>
+                        <h3 class="text-xl tracking-tight font-medium mb-3">Automação de Processos</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Sistemas automatizados para máxima eficiência e produtividade.</p>
+                        <div class="mt-6 pt-6 border-t border-white/5">
+                            <div class="text-2xl font-medium tracking-tight" style="color:#2dd4bf">95%</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1">Aumento de Eficiência</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3 Otimização -->
+                <div class="showcase-card rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-6 md:p-8 overflow-hidden relative group hover:bg-white/[0.06] transition-colors duration-500">
+                    <div class="absolute inset-0" style="background:radial-gradient(circle at 60% 10%,rgba(255,255,255,.06),transparent 20%),radial-gradient(circle at 40% 100%,rgba(20,184,166,.1),transparent 35%)"></div>
+                    <div class="relative">
+                        <div class="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center mb-6 group-hover:border-emerald-400/30 transition-colors">
+                            <iconify-icon icon="solar:pulse-2-linear" width="22" height="22" style="color:#34d399"></iconify-icon>
+                        </div>
+                        <div class="text-xs uppercase tracking-[.25em] text-gray-500 mb-2">Estratégico</div>
+                        <h3 class="text-xl tracking-tight font-medium mb-3">Otimização Financeira</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Análise profunda de indicadores de performance e redução de custos.</p>
+                        <div class="mt-6 pt-6 border-t border-white/5">
+                            <div class="text-2xl font-medium tracking-tight" style="color:#34d399">R$25M+</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1">Economia Gerada</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 Controle de Qualidade -->
+                <div class="showcase-card rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-6 md:p-8 overflow-hidden relative group hover:bg-white/[0.06] transition-colors duration-500">
+                    <div class="absolute inset-0" style="background:radial-gradient(circle at 20% 80%,rgba(6,182,212,.1),transparent 28%),radial-gradient(circle at 80% 20%,rgba(34,211,238,.1),transparent 30%)"></div>
+                    <div class="relative">
+                        <div class="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center mb-6 group-hover:border-cyan-300/30 transition-colors">
+                            <iconify-icon icon="solar:shield-linear" width="22" height="22" style="color:#67e8f9"></iconify-icon>
+                        </div>
+                        <div class="text-xs uppercase tracking-[.25em] text-gray-500 mb-2">Qualidade</div>
+                        <h3 class="text-xl tracking-tight font-medium mb-3">Controle de Qualidade</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Sistemas de controle e monitoramento de processos com excelência.</p>
+                        <div class="mt-6 pt-6 border-t border-white/5">
+                            <div class="text-2xl font-medium tracking-tight" style="color:#67e8f9">98%</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1">Taxa de Qualidade</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5 Manutenção Preditiva -->
+                <div class="showcase-card rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-6 md:p-8 overflow-hidden relative group hover:bg-white/[0.06] transition-colors duration-500">
+                    <div class="absolute inset-0" style="background:radial-gradient(circle at 80% 80%,rgba(20,184,166,.1),transparent 28%),radial-gradient(circle at 20% 20%,rgba(34,211,238,.08),transparent 30%)"></div>
+                    <div class="relative">
+                        <div class="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center mb-6 group-hover:border-teal-300/30 transition-colors">
+                            <iconify-icon icon="solar:infinity-linear" width="22" height="22" style="color:#5eead4"></iconify-icon>
+                        </div>
+                        <div class="text-xs uppercase tracking-[.25em] text-gray-500 mb-2">Preventivo</div>
+                        <h3 class="text-xl tracking-tight font-medium mb-3">Manutenção Preditiva</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Sistemas inteligentes para evitar paradas e garantir continuidade.</p>
+                        <div class="mt-6 pt-6 border-t border-white/5">
+                            <div class="text-2xl font-medium tracking-tight" style="color:#5eead4">40%</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1">Redução de Paradas</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6 ERP's -->
+                <div class="showcase-card rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-6 md:p-8 overflow-hidden relative group hover:bg-white/[0.06] transition-colors duration-500">
+                    <div class="absolute inset-0" style="background:radial-gradient(circle at 50% 20%,rgba(6,182,212,.1),transparent 28%),radial-gradient(circle at 50% 90%,rgba(20,184,166,.1),transparent 35%)"></div>
+                    <div class="relative">
+                        <div class="w-11 h-11 rounded-full border border-white/10 bg-white/5 flex items-center justify-center mb-6 group-hover:border-cyan-400/30 transition-colors">
+                            <iconify-icon icon="solar:layers-linear" width="22" height="22" style="color:#22d3ee"></iconify-icon>
+                        </div>
+                        <div class="text-xs uppercase tracking-[.25em] text-gray-500 mb-2">Tecnologia</div>
+                        <h3 class="text-xl tracking-tight font-medium mb-3">ERP's Financeiros</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed">Implementação de sistemas ERP's para monitoramento em tempo real.</p>
+                        <div class="mt-6 pt-6 border-t border-white/5">
+                            <div class="text-2xl font-medium tracking-tight" style="color:#22d3ee">150+</div>
+                            <div class="text-xs text-gray-500 uppercase tracking-widest mt-1">Sistemas Implantados</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         PORTFÓLIO (schema diagram)
+    ══════════════════════════════════════════════════ -->
+    <section id="portfolio" class="relative w-full px-6 md:px-12 lg:px-24 pb-44 z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-12 items-center">
+
+                <div class="schema-copy">
+                    <div class="text-xs tracking-[.25em] uppercase text-gray-500 mb-4">Portfólio</div>
+                    <h2 class="text-3xl md:text-5xl tracking-tight leading-[1.05] font-medium mb-6">
+                        Projetos que transformaram negócios.
+                    </h2>
+                    <p class="text-sm md:text-base text-gray-400 leading-relaxed max-w-md">
+                        Cada projeto é único, mas o compromisso com excelência é sempre o mesmo.
+                        Veja como transformamos desafios em resultados reais.
+                    </p>
+                    <div class="mt-8 space-y-3">
+                        <div class="flex items-center gap-3 text-sm text-gray-400">
+                            <div class="w-2 h-2 rounded-full" style="background:#22d3ee"></div>
+                            <span>Automação Completa – Processos Financeiros (+85% produtividade)</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-gray-400">
+                            <div class="w-2 h-2 rounded-full" style="background:#2dd4bf"></div>
+                            <span>ERP's Financeiros – Grandes Empresas (-60% custos)</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-gray-400">
+                            <div class="w-2 h-2 rounded-full" style="background:#34d399"></div>
+                            <span>Auditoria – Agro, Atacadista, Varejo (R$15M economia/ano)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animated schema -->
+                <div class="relative rounded-[2rem] border border-white/10 bg-white/[0.03] backdrop-blur-xl p-4 md:p-8 overflow-hidden">
+                    <div class="absolute inset-0"
+                         style="background:radial-gradient(circle at 20% 20%,rgba(6,182,212,.12),transparent 25%),radial-gradient(circle at 80% 20%,rgba(20,184,166,.12),transparent 25%),radial-gradient(circle at 50% 90%,rgba(45,212,191,.08),transparent 30%)"></div>
+                    <div class="absolute top-8 left-10 w-24 h-24 rounded-full bg-cyan-500/10" style="filter:blur(48px)"></div>
+                    <div class="absolute right-8 bottom-10 w-24 h-24 rounded-full bg-teal-500/10" style="filter:blur(48px)"></div>
+
+                    <div class="relative w-full" style="aspect-ratio:1.15/1">
+                        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 900 620" fill="none">
+                            <path class="schema-line" d="M165 150C240 150 255 155 320 205" stroke="url(#og1)" stroke-width="2"/>
+                            <path class="schema-line" d="M580 165C650 165 695 175 745 220" stroke="url(#og2)" stroke-width="2"/>
+                            <path class="schema-line" d="M450 255C450 315 450 335 450 400" stroke="url(#og3)" stroke-width="2"/>
+                            <path class="schema-line" d="M320 470C365 435 390 425 450 420" stroke="url(#og4)" stroke-width="2"/>
+                            <path class="schema-line" d="M580 470C535 435 510 425 450 420" stroke="url(#og5)" stroke-width="2"/>
+                            <path class="schema-line" d="M320 205C360 240 395 250 450 255" stroke="url(#og1)" stroke-width="2"/>
+                            <path class="schema-line" d="M580 165C540 228 512 245 450 255" stroke="url(#og2)" stroke-width="2"/>
+                            <defs>
+                                <linearGradient id="og1" x1="165" y1="150" x2="320" y2="205" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#06B6D4" stop-opacity=".85"/><stop offset="1" stop-color="#2DD4BF" stop-opacity=".85"/>
+                                </linearGradient>
+                                <linearGradient id="og2" x1="580" y1="165" x2="745" y2="220" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#2DD4BF" stop-opacity=".85"/><stop offset="1" stop-color="#67E8F9" stop-opacity=".85"/>
+                                </linearGradient>
+                                <linearGradient id="og3" x1="450" y1="255" x2="450" y2="400" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#22D3EE" stop-opacity=".85"/><stop offset="1" stop-color="#5EEAD4" stop-opacity=".85"/>
+                                </linearGradient>
+                                <linearGradient id="og4" x1="320" y1="470" x2="450" y2="420" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#06B6D4" stop-opacity=".85"/><stop offset="1" stop-color="#22D3EE" stop-opacity=".85"/>
+                                </linearGradient>
+                                <linearGradient id="og5" x1="580" y1="470" x2="450" y2="420" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#67E8F9" stop-opacity=".85"/><stop offset="1" stop-color="#2DD4BF" stop-opacity=".85"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+
+                        <!-- Nodes -->
+                        <div class="schema-node orb-float absolute rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl px-4 py-3"
+                             style="min-width:8.5rem;left:6%;top:12%">
+                            <div class="text-[10px] uppercase tracking-[.22em] text-gray-500 mb-2">Coleta</div>
+                            <div class="text-sm font-medium">Dados Brutos</div>
+                        </div>
+                        <div class="schema-node orb-float-delay absolute rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl px-4 py-3"
+                             style="min-width:8.5rem;left:28%;top:24%">
+                            <div class="text-[10px] uppercase tracking-[.22em] text-gray-500 mb-2">Análise</div>
+                            <div class="text-sm font-medium">Auditoria</div>
+                        </div>
+                        <div class="schema-node orb-float-delay-2 absolute rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl px-4 py-3"
+                             style="min-width:8.5rem;right:8%;top:16%">
+                            <div class="text-[10px] uppercase tracking-[.22em] text-gray-500 mb-2">Sistema</div>
+                            <div class="text-sm font-medium">ERP &amp; Automação</div>
+                        </div>
+
+                        <!-- Central node -->
+                        <div class="schema-node central-node absolute" style="left:50%;top:44%;transform:translate(-50%,-50%)">
+                            <div class="relative w-40 h-40 rounded-full border border-white/10 backdrop-blur-xl flex items-center justify-center"
+                                 style="background:linear-gradient(to bottom right,rgba(255,255,255,.08),rgba(255,255,255,.02));box-shadow:0 0 80px rgba(45,212,191,.12)">
+                                <div class="absolute inset-3 rounded-full border border-cyan-400/20 animate-spin" style="animation-duration:18s"></div>
+                                <div class="absolute inset-8 rounded-full border border-teal-400/20 animate-spin" style="animation-duration:12s;animation-direction:reverse"></div>
+                                <div class="absolute inset-0 rounded-full blur-sm"
+                                     style="background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.22),transparent 28%),radial-gradient(circle at 70% 70%,rgba(20,184,166,.18),transparent 35%),radial-gradient(circle at 45% 55%,rgba(6,182,212,.18),transparent 45%)"></div>
+                                <div class="relative text-center">
+                                    <div class="text-[10px] uppercase tracking-[.22em] text-gray-400 mb-2">Motor</div>
+                                    <div class="text-base font-medium tracking-tight">Outpartners</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="schema-node orb-float-delay absolute rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl px-4 py-3"
+                             style="min-width:8.5rem;left:22%;bottom:8%">
+                            <div class="text-[10px] uppercase tracking-[.22em] text-gray-500 mb-2">Resultado</div>
+                            <div class="text-sm font-medium">Otimização</div>
+                        </div>
+                        <div class="schema-node orb-float absolute rounded-2xl border border-white/10 bg-black/50 backdrop-blur-xl px-4 py-3"
+                             style="min-width:8.5rem;right:18%;bottom:8%">
+                            <div class="text-[10px] uppercase tracking-[.22em] text-gray-500 mb-2">Relatório</div>
+                            <div class="text-sm font-medium">Insights</div>
+                        </div>
+
+                        <!-- Pulses -->
+                        <div class="pulse pulse-a absolute w-3 h-3 rounded-full" style="background:#22d3ee;box-shadow:0 0 20px rgba(34,211,238,.8);left:32%;top:28%"></div>
+                        <div class="pulse pulse-b absolute w-3 h-3 rounded-full" style="background:#2dd4bf;box-shadow:0 0 20px rgba(45,212,191,.8);right:24%;top:25%"></div>
+                        <div class="pulse pulse-c absolute w-3 h-3 rounded-full" style="background:#67e8f9;box-shadow:0 0 20px rgba(103,232,249,.8);left:50%;top:62%;transform:translateX(-50%)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         DEPOIMENTOS
+    ══════════════════════════════════════════════════ -->
+    <section id="depoimentos" class="relative w-full px-6 md:px-12 lg:px-24 pb-44 z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="showcase-copy mb-14">
+                <div class="text-xs tracking-[.25em] uppercase text-gray-500 mb-4">Depoimentos</div>
+                <h2 class="text-3xl md:text-5xl tracking-tight leading-[1.05] font-medium max-w-2xl">
+                    O que nossos clientes dizem.
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="showcase-card rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-6 md:p-8 relative overflow-hidden">
+                    <div class="absolute inset-0" style="background:radial-gradient(circle at 20% 20%,rgba(6,182,212,.08),transparent 35%)"></div>
+                    <div class="relative">
+                        <div class="mb-6 text-amber-400 text-lg tracking-widest">★★★★★</div>
+                        <p class="text-sm text-gray-300 leading-relaxed italic mb-6">
+                            "A Outpartners transformou completamente nossa gestão financeira. A automação implementada
+                            aumentou nossa eficiência em 95% e reduziu custos operacionais significativamente."
+                        </p>
+                        <div class="flex items-center gap-3 pt-4 border-t border-white/5">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10"
+                                 style="background:linear-gradient(to bottom right,rgba(6,182,212,.2),rgba(20,184,166,.2))">
+                                <iconify-icon icon="solar:user-linear" width="18" height="18" style="color:#9ca3af"></iconify-icon>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Cliente</div>
+                                <div class="text-xs text-gray-500">Diretor – Empresa</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="showcase-card rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-6 md:p-8 relative overflow-hidden">
+                    <div class="absolute inset-0" style="background:radial-gradient(circle at 80% 20%,rgba(20,184,166,.08),transparent 35%)"></div>
+                    <div class="relative">
+                        <div class="mb-6 text-amber-400 text-lg tracking-widest">★★★★★</div>
+                        <p class="text-sm text-gray-300 leading-relaxed italic mb-6">
+                            "Excelente trabalho na auditoria financeira. A equipe é muito profissional e os resultados
+                            superaram nossas expectativas. Recomendo fortemente!"
+                        </p>
+                        <div class="flex items-center gap-3 pt-4 border-t border-white/5">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10"
+                                 style="background:linear-gradient(to bottom right,rgba(20,184,166,.2),rgba(52,211,153,.2))">
+                                <iconify-icon icon="solar:user-linear" width="18" height="18" style="color:#9ca3af"></iconify-icon>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Cliente</div>
+                                <div class="text-xs text-gray-500">CEO – Empresa</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="showcase-card rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-6 md:p-8 relative overflow-hidden">
+                    <div class="absolute inset-0" style="background:radial-gradient(circle at 50% 80%,rgba(6,182,212,.08),transparent 35%)"></div>
+                    <div class="relative">
+                        <div class="mb-6 text-amber-400 text-lg tracking-widest">★★★★★</div>
+                        <p class="text-sm text-gray-300 leading-relaxed italic mb-6">
+                            "A implementação do sistema de automação revolucionou nosso controle de qualidade.
+                            Temos monitoramento em tempo real e previsibilidade total dos processos."
+                        </p>
+                        <div class="flex items-center gap-3 pt-4 border-t border-white/5">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center border border-white/10"
+                                 style="background:linear-gradient(to bottom right,rgba(6,182,212,.2),rgba(45,212,191,.2))">
+                                <iconify-icon icon="solar:user-linear" width="18" height="18" style="color:#9ca3af"></iconify-icon>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium">Cliente</div>
+                                <div class="text-xs text-gray-500">Gerente – Empresa</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         METODOLOGIA / PROCESSO
+    ══════════════════════════════════════════════════ -->
+    <section id="processo" class="relative w-full px-6 md:px-12 lg:px-24 pb-44 z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="process-copy mb-14">
+                <div class="text-xs tracking-[.25em] uppercase text-gray-500 mb-4">Metodologia</div>
+                <h2 class="text-3xl md:text-5xl tracking-tight leading-[1.05] font-medium max-w-2xl">
+                    Da análise ao resultado em um fluxo contínuo.
+                </h2>
+            </div>
+
+            <div class="relative">
+                <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px"
+                     style="background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.15),rgba(255,255,255,0))"></div>
+
+                <div class="space-y-10">
+                    <!-- 01 Diagnosticar -->
+                    <div class="timeline-item grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="md:pr-14">
+                            <div class="inline-flex items-center gap-2 text-xs uppercase tracking-[.25em] mb-4" style="color:#67e8f9">
+                                <span>01</span><span>Diagnosticar</span>
+                            </div>
+                            <h3 class="text-2xl font-medium tracking-tight mb-3">Entender o negócio a fundo</h3>
+                            <p class="text-sm md:text-base text-gray-400 leading-relaxed">
+                                Mapeamos todos os processos financeiros, identificamos gargalos e pontos de
+                                ineficiência com análise detalhada e imparcial.
+                            </p>
+                        </div>
+                        <div class="md:pl-14">
+                            <div class="timeline-card rounded-[2rem] border border-white/10 bg-white/[0.03] backdrop-blur-xl p-6 flex items-center" style="min-height:13rem">
+                                <div class="w-full space-y-3">
+                                    <div class="h-2 rounded-full bg-white/5 overflow-hidden">
+                                        <div class="bar-fill h-full rounded-full" style="width:65%;background:linear-gradient(to right,rgba(6,182,212,.7),rgba(45,212,191,.7))"></div>
+                                    </div>
+                                    <div class="h-2 rounded-full bg-white/5 overflow-hidden">
+                                        <div class="bar-fill h-full rounded-full" style="width:82%;background:linear-gradient(to right,rgba(20,184,166,.7),rgba(52,211,153,.7))"></div>
+                                    </div>
+                                    <div class="h-2 rounded-full bg-white/5 overflow-hidden">
+                                        <div class="bar-fill h-full rounded-full" style="width:58%;background:linear-gradient(to right,rgba(52,211,153,.7),rgba(6,182,212,.7))"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 02 Planejar -->
+                    <div class="timeline-item grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="md:order-2 md:pl-14">
+                            <div class="inline-flex items-center gap-2 text-xs uppercase tracking-[.25em] mb-4" style="color:#5eead4">
+                                <span>02</span><span>Planejar</span>
+                            </div>
+                            <h3 class="text-2xl font-medium tracking-tight mb-3">Projetar soluções sob medida</h3>
+                            <p class="text-sm md:text-base text-gray-400 leading-relaxed">
+                                Desenvolvemos estratégias personalizadas de auditoria e automação baseadas
+                                nos dados reais do negócio.
+                            </p>
+                        </div>
+                        <div class="md:order-1 md:pr-14">
+                            <div class="timeline-card rounded-[2rem] border border-white/10 bg-white/[0.03] backdrop-blur-xl p-6 flex items-center justify-center" style="min-height:13rem">
+                                <div class="predict-rings relative w-32 h-32 rounded-full border border-white/10">
+                                    <div class="absolute inset-3 rounded-full border border-teal-400/30"></div>
+                                    <div class="absolute inset-7 rounded-full border border-cyan-400/30"></div>
+                                    <div class="absolute inset-0 rounded-full blur-sm"
+                                         style="background:conic-gradient(from 0deg,rgba(6,182,212,.18),transparent,rgba(20,184,166,.18),transparent)"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 03 Implementar -->
+                    <div class="timeline-item grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="md:pr-14">
+                            <div class="inline-flex items-center gap-2 text-xs uppercase tracking-[.25em] mb-4" style="color:#67e8f9">
+                                <span>03</span><span>Implementar</span>
+                            </div>
+                            <h3 class="text-2xl font-medium tracking-tight mb-3">Executar com precisão</h3>
+                            <p class="text-sm md:text-base text-gray-400 leading-relaxed">
+                                Implementamos as soluções de forma estruturada, garantindo continuidade e
+                                mínimo impacto nas operações do cliente.
+                            </p>
+                        </div>
+                        <div class="md:pl-14">
+                            <div class="timeline-card rounded-[2rem] border border-white/10 bg-white/[0.03] backdrop-blur-xl p-6 flex items-center" style="min-height:13rem">
+                                <div class="grid grid-cols-3 gap-3 w-full">
+                                    <div class="mini-panel h-20 rounded-2xl bg-white/5 border border-white/10"></div>
+                                    <div class="mini-panel h-28 rounded-2xl border border-white/10"
+                                         style="background:linear-gradient(to bottom,rgba(6,182,212,.2),rgba(20,184,166,.1))"></div>
+                                    <div class="mini-panel h-16 rounded-2xl bg-white/5 border border-white/10"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 04 Monitorar -->
+                    <div class="timeline-item grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="md:order-2 md:pl-14">
+                            <div class="inline-flex items-center gap-2 text-xs uppercase tracking-[.25em] mb-4" style="color:#6ee7b7">
+                                <span>04</span><span>Monitorar</span>
+                            </div>
+                            <h3 class="text-2xl font-medium tracking-tight mb-3">Resultados sustentáveis</h3>
+                            <p class="text-sm md:text-base text-gray-400 leading-relaxed">
+                                Acompanhamos os resultados em tempo real, garantindo que as melhorias
+                                implementadas se mantenham e evoluam continuamente.
+                            </p>
+                        </div>
+                        <div class="md:order-1 md:pr-14">
+                            <div class="timeline-card rounded-[2rem] border border-white/10 bg-white/[0.03] backdrop-blur-xl p-6 flex items-center justify-center" style="min-height:13rem">
+                                <div class="w-full h-24 rounded-[2rem] border border-white/10 bg-black/40 relative overflow-hidden">
+                                    <div class="absolute left-0 top-0 bottom-0 w-[35%]"
+                                         style="background:linear-gradient(to right,rgba(6,182,212,.25),rgba(20,184,166,.15))"></div>
+                                    <div class="absolute right-0 top-0 bottom-0 w-[28%]"
+                                         style="background:linear-gradient(to right,rgba(52,211,153,.15),transparent)"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════
+         CONTATO / CTA
+    ══════════════════════════════════════════════════ -->
+    <section id="contato" class="relative w-full px-6 md:px-12 lg:px-24 pb-32 z-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="relative rounded-[2.5rem] p-[1px] overflow-hidden"
+                 style="background:linear-gradient(to bottom,rgba(255,255,255,.2),rgba(255,255,255,.05),transparent)">
+                <div class="absolute inset-0"
+                     style="background:radial-gradient(circle at 50% 20%,rgba(6,182,212,.16),transparent 28%),radial-gradient(circle at 50% 100%,rgba(20,184,166,.14),transparent 35%)"></div>
+                <div class="relative rounded-[2.5rem] border border-white/5 bg-black/60 backdrop-blur-xl px-8 py-16 md:px-14 md:py-20 text-center">
+
+                    <div class="cta-copy">
+                        <div class="text-xs uppercase tracking-[.3em] text-gray-500 mb-5">Entre em Contato</div>
+                        <h2 class="text-3xl md:text-5xl lg:text-6xl tracking-tight leading-[1.02] font-medium max-w-4xl mx-auto mb-6">
+                            Pronto para transformar seu negócio?
+                        </h2>
+                        <p class="text-sm md:text-base text-gray-400 max-w-2xl mx-auto leading-relaxed mb-8">
+                            Conte com especialistas em auditoria financeira e automação para maximizar
+                            a eficiência da sua empresa. Goiânia, Goiás.
+                        </p>
+
+                        <!-- Contact info -->
+                        <div class="flex flex-wrap justify-center gap-6 mb-10 text-sm text-gray-400">
+                            <a href="tel:+5562982368804" class="flex items-center gap-2 hover:text-white transition-colors">
+                                <iconify-icon icon="solar:phone-linear" width="16" height="16" style="color:#22d3ee"></iconify-icon>
+                                <span>(62) 98236-8804</span>
+                            </a>
+                            <a href="mailto:wilton@outpartners.com.br" class="flex items-center gap-2 hover:text-white transition-colors">
+                                <iconify-icon icon="solar:letter-linear" width="16" height="16" style="color:#22d3ee"></iconify-icon>
+                                <span>wilton@outpartners.com.br</span>
+                            </a>
+                            <div class="flex items-center gap-2">
+                                <iconify-icon icon="solar:map-point-linear" width="16" height="16" style="color:#22d3ee"></iconify-icon>
+                                <span>Goiânia, Goiás – Brasil</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-4 cta-actions">
+                        <a href="https://wa.me/62982368804" target="_blank"
+                           class="relative group rounded-full p-[1px]"
+                           style="background:linear-gradient(to right,rgba(6,182,212,.6),rgba(20,184,166,.6),rgba(52,211,153,.6))">
+                            <div class="absolute inset-0 rounded-full blur-md opacity-70 group-hover:opacity-100 transition-opacity"
+                                 style="background:linear-gradient(to right,rgba(6,182,212,.4),rgba(20,184,166,.4),rgba(52,211,153,.4))"></div>
+                            <div class="relative px-7 py-3 rounded-full bg-black/85 backdrop-blur-md text-sm font-medium flex items-center gap-2">
+                                Conversar no WhatsApp
+                                <iconify-icon icon="solar:arrow-right-linear" width="16" height="16"></iconify-icon>
+                            </div>
+                        </a>
+                        <a href="mailto:wilton@outpartners.com.br"
+                           class="px-7 py-3 rounded-full border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] transition-colors text-sm font-medium">
+                            Enviar Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div><!-- end border wrapper -->
+
+<!-- ─── FOOTER ────────────────────────────────────────── -->
+<footer class="w-full px-6 md:px-12 lg:px-24 pb-14 z-10 relative">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-4 items-start md:items-center justify-between border-t border-white/5 pt-8">
+        <div class="flex items-center gap-3">
+            <img src="Logo.png" alt="Outpartners" class="h-7 w-auto opacity-70">
+            <span class="text-sm text-gray-500">&copy; 2024 Outpartners. Todos os direitos reservados.</span>
+        </div>
+        <div class="flex items-center gap-6 text-xs uppercase tracking-[.24em] text-gray-500">
+            <a href="#sobre"     class="hover:text-white transition-colors">Sobre</a>
+            <a href="#servicos"  class="hover:text-white transition-colors">Serviços</a>
+            <a href="#contato"   class="hover:text-white transition-colors">Contato</a>
+        </div>
+    </div>
+</footer>
+
+</div><!-- end max-w wrapper -->
+
+<!-- ─── SCRIPTS ───────────────────────────────────────── -->
+<script>
+/* ══════════════════════════════════════════════════════
+   WebGL Background — ported from Aura Cloud template
+   45 light strands, mouse-reactive, GSAP-driven uniforms
+══════════════════════════════════════════════════════ */
+(function initWebGL() {
+  const canvas = document.getElementById('bg-canvas');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+
+  /* ── Shaders ─────────────────────────────── */
+  const vsSource = `
+    attribute vec2 position;
+    void main() { gl_Position = vec4(position, 0.0, 1.0); }
+  `;
+  const fsSource = `
+    precision highp float;
+    uniform vec2  u_resolution;
+    uniform float u_time;
+    uniform vec2  u_mouse;
+    uniform float u_intro;
+    uniform float u_burst;
+    uniform float u_scroll;
+
+    float random(float n){ return fract(sin(n)*43758.5453123); }
+
+    void main(){
+      vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+      vec2 p  = uv;
+      vec2 center = vec2(0.55, 0.48);
+
+      vec2 mouse = u_mouse / u_resolution.xy;
+      mouse.y = 1.0 - mouse.y;
+
+      vec3 color = vec3(0.0);
+
+      float bgGlow = max(0.0, 1.0 - distance(p, vec2(-0.1, 0.5)));
+      color += vec3(0.02, 0.12, 0.15) * pow(bgGlow, 2.0) * 0.5 * u_intro;
+
+      float rightGlow = max(0.0, 1.0 - distance(p, vec2(1.08, 0.35)));
+      color += vec3(0.02, 0.10, 0.12) * pow(rightGlow, 2.0) * 0.35;
+
+      float particleNoise = fract(sin(dot(p + u_time*0.015, vec2(12.9898,78.233)))*43758.5453);
+      color += vec3(0.6, 0.8, 1.0) * pow(particleNoise, 90.0) * 0.2 * u_intro;
+
+      float radial = distance(p, center);
+      float radialBurst = smoothstep(0.55, 0.0, radial);
+      color += vec3(0.05, 0.15, 0.18) * radialBurst * 0.4 * u_burst;
+
+      float ring1 = abs(radial - (0.08 + u_burst*0.26));
+      float ring2 = abs(radial - (0.18 + u_burst*0.32));
+      float burstRing = smoothstep(0.035,0.0,ring1) + smoothstep(0.05,0.0,ring2);
+      color += vec3(0.40, 0.90, 0.95) * burstRing * 0.22 * u_burst;
+
+      float globalDriftY = sin(p.x*2.0 - u_time*0.4)*0.15;
+      float globalDriftX = cos(p.y*1.5 + u_time*0.3)*0.05;
+      p.y += globalDriftY * p.x;
+      p.x += globalDriftX;
+      p.y += sin((p.x + u_scroll*0.65)*8.0)*0.015*u_burst;
+
+      float lineCount = 45.0;
+      for(float i = 0.0; i < 45.0; i++){
+        float seed  = i / lineCount;
+        float speed = 0.05 + random(seed)*0.1;
+        float phase = seed * 6.2831;
+
+        float strandDelay = random(seed+5.0)*0.4;
+        float localIntro  = clamp((u_intro - strandDelay)*1.6, 0.0, 1.0);
+        localIntro = localIntro*localIntro*(3.0 - 2.0*localIntro);
+
+        float spread = pow(p.x, 1.2)*0.7*localIntro;
+        float wave1  = sin(p.x*(1.8 + random(seed)*1.2) - u_time*speed + phase);
+        float wave2  = cos(p.x*2.5 + u_time*speed*0.7 - phase*1.1);
+        float explosionWave = sin((p.x*10.0) - u_time*2.0 + seed*14.0)*0.08*u_burst*pow(p.x,1.4);
+        float yPos = 0.5 + (wave1*0.5 + wave2*0.3)*spread + explosionWave;
+
+        vec2  linePoint    = vec2(p.x, yPos);
+        float distToMouse  = distance(linePoint, mouse);
+        float hoverInfluence = smoothstep(0.4, 0.0, distToMouse);
+        float ripple = sin(distToMouse*12.0 - u_time*3.0)*0.03*hoverInfluence;
+        yPos += (mouse.y - yPos)*hoverInfluence*0.4*localIntro + ripple;
+
+        float centerPush = smoothstep(0.38, 0.0, distance(vec2(p.x,yPos), center));
+        yPos += (yPos - center.y)*centerPush*0.45*u_burst;
+
+        float distToLine = abs(p.y - yPos);
+        float thickness  = 0.001 + p.x*0.005 + u_burst*0.002;
+        float intensity  = 0.0007 / (distToLine + thickness);
+        float edgeFade   = smoothstep(1.0, 0.1, p.x);
+        float lengthFade = smoothstep(u_intro*1.5, (u_intro*1.5)-0.35, p.x);
+
+        vec3 colDeepAqua   = vec3(0.05, 0.60, 0.65);
+        vec3 colTeal       = vec3(0.10, 0.85, 0.75);
+        vec3 colBrightCyan = vec3(0.20, 0.95, 0.85);
+        vec3 lineColor = mix(colDeepAqua, colTeal, random(seed+1.0));
+        lineColor = mix(lineColor, colBrightCyan, random(seed+2.0)*0.4);
+        lineColor += vec3(0.4,0.9,1.0)*centerPush*u_burst*0.7;
+        float coreGlow = smoothstep(0.015, 0.0, distToLine);
+        lineColor += vec3(0.8,0.9,1.0)*coreGlow*0.5;
+
+        color += lineColor * intensity * edgeFade * lengthFade * localIntro;
+      }
+      gl_FragColor = vec4(color, 1.0);
+    }
+  `;
+
+  /* ── Compile & link ──────────────────────── */
+  function makeShader(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, makeShader(gl.VERTEX_SHADER,   vsSource));
+  gl.attachShader(prog, makeShader(gl.FRAGMENT_SHADER, fsSource));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+
+  /* ── Quad buffer ─────────────────────────── */
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+    -1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1
+  ]), gl.STATIC_DRAW);
+  const posAttr = gl.getAttribLocation(prog, 'position');
+  gl.enableVertexAttribArray(posAttr);
+  gl.vertexAttribPointer(posAttr, 2, gl.FLOAT, false, 0, 0);
+
+  /* ── Uniform locations ───────────────────── */
+  const uRes    = gl.getUniformLocation(prog, 'u_resolution');
+  const uTime   = gl.getUniformLocation(prog, 'u_time');
+  const uMouse  = gl.getUniformLocation(prog, 'u_mouse');
+  const uIntro  = gl.getUniformLocation(prog, 'u_intro');
+  const uBurst  = gl.getUniformLocation(prog, 'u_burst');
+  const uScroll = gl.getUniformLocation(prog, 'u_scroll');
+
+  /* ── Shared animation state (driven by GSAP) */
+  window._glState = { intro: 0, burst: 0, scroll: 0 };
+
+  /* ── Mouse tracking ──────────────────────── */
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let tmx = mx, tmy = my;
+  window.addEventListener('mousemove', e => { tmx = e.clientX; tmy = e.clientY; });
+
+  /* ── Resize ──────────────────────────────── */
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* ── Render loop ─────────────────────────── */
+  const t0 = performance.now();
+  function render(now) {
+    mx += (tmx - mx) * 0.04;
+    my += (tmy - my) * 0.04;
+    gl.uniform2f(uRes,    canvas.width, canvas.height);
+    gl.uniform1f(uTime,   (now - t0) * 0.001);
+    gl.uniform2f(uMouse,  mx, my);
+    gl.uniform1f(uIntro,  window._glState.intro);
+    gl.uniform1f(uBurst,  window._glState.burst);
+    gl.uniform1f(uScroll, window._glState.scroll);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+
+/* ══════════════════════════════════════════════════════ */
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── WebGL state driven by GSAP ────────────── */
+// intro: 0→1 over 3.5s on page load
+gsap.to(window._glState, {
+  intro: 1, duration: 3.5, ease: 'power2.inOut'
+});
+// scroll: 0→1 as user scrolls the full page
+ScrollTrigger.create({
+  trigger: document.body,
+  start: 'top top', end: 'bottom bottom',
+  onUpdate: self => { window._glState.scroll = self.progress; }
+});
+// burst: 0→1 when portfolio/schema section enters view
+ScrollTrigger.create({
+  trigger: '#portfolio',
+  start: 'top 70%', end: 'bottom 30%',
+  onUpdate: self => { window._glState.burst = self.progress; }
+});
+// canvas parallax on scroll
+gsap.to('#bg-canvas', {
+  y: '35%', scale: 1.22, ease: 'none',
+  scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom top', scrub: true }
+});
+
+/* ── Hero ──────────────────────────────────── */
+gsap.to('.reveal-word', {
+    y:'0%', duration:1.4, stagger:0.12, ease:'power4.out', delay:0.2
+});
+gsap.fromTo('.hero-label',  {opacity:0,y:18}, {opacity:1,y:0, duration:1, ease:'power2.out', delay:0.6});
+gsap.fromTo('.hero-sub',    {opacity:0,y:24}, {opacity:1,y:0, duration:1, ease:'power2.out', delay:1.1});
+gsap.fromTo('.hero-orb',    {opacity:0,scale:0.8}, {opacity:1,scale:1, duration:1.5, ease:'power3.out', stagger:0.12, delay:0.9});
+gsap.fromTo('#main-header', {y:-20,opacity:0}, {y:0,opacity:1, duration:1, ease:'power2.out', delay:0.5});
+gsap.fromTo('#hero-ctas',   {y:20,opacity:0}, {y:0,opacity:1, duration:1, ease:'power2.out', delay:1.35});
+
+/* ── Sobre / features ──────────────────────── */
+gsap.to('.reveal-feature-word',{
+    y:'0%', duration:1.2, stagger:0.1, ease:'power4.out',
+    scrollTrigger:{trigger:'#features-title',start:'top 85%'}
+});
+gsap.fromTo('.feature-card',
+    {opacity:0,y:80,rotateY:6},
+    {opacity:1,y:0,rotateY:0, duration:1.1, stagger:0.12, ease:'power3.out',
+     scrollTrigger:{trigger:'#sobre',start:'top 72%'}}
+);
+gsap.utils.toArray('.parallax-element').forEach(el=>{
+    const speed = parseFloat(el.getAttribute('data-speed')||'0.1');
+    gsap.fromTo(el,{y:0},{
+        y:()=>-180*speed, ease:'none',
+        scrollTrigger:{trigger:'#sobre',start:'top bottom',end:'bottom top',scrub:true}
+    });
+});
+
+/* ── Métricas ──────────────────────────────── */
+gsap.fromTo('.metrics-copy',
+    {opacity:0,y:40},{opacity:1,y:0, duration:1, ease:'power3.out',
+     scrollTrigger:{trigger:'#metricas',start:'top 78%'}}
+);
+gsap.utils.toArray('.stat-card').forEach((card,i)=>{
+    gsap.fromTo(card,{opacity:0,y:24,scale:.96},{
+        opacity:1,y:0,scale:1, duration:.8, ease:'power2.out', delay:i*.08,
+        scrollTrigger:{trigger:'#metricas',start:'top 78%'}
+    });
+    gsap.to(card,{y:i%2===0?-10:-18, repeat:-1, yoyo:true, duration:2.8+i*.2, ease:'sine.inOut'});
+});
+
+/* ── Serviços (schema copy & showcase cards) ─ */
+gsap.fromTo('.schema-copy',
+    {opacity:0,y:50},{opacity:1,y:0, duration:1.1, ease:'power3.out',
+     scrollTrigger:{trigger:'#servicos',start:'top 78%'}}
+);
+gsap.utils.toArray('.showcase-card').forEach((card,i)=>{
+    gsap.fromTo(card,{y:100,opacity:0,rotateX:6},{
+        y:0,opacity:1,rotateX:0, duration:1.1, ease:'power3.out', delay:i*.04,
+        scrollTrigger:{trigger:card,start:'top 88%'}
+    });
+});
+
+/* ── Portfólio schema diagram ──────────────── */
+gsap.fromTo('.schema-node',
+    {opacity:0,scale:.85,y:30},
+    {opacity:1,scale:1,y:0, duration:1, ease:'power3.out', stagger:.08,
+     scrollTrigger:{trigger:'#portfolio',start:'top 75%'}}
+);
+gsap.to('.schema-line',{
+    strokeDashoffset:0, duration:1.6, stagger:.1, ease:'power2.out',
+    scrollTrigger:{trigger:'#portfolio',start:'top 72%'}
+});
+gsap.to('.pulse-a',{x:115,y:50,  repeat:-1,duration:2.6,ease:'none'});
+gsap.to('.pulse-b',{x:-140,y:95, repeat:-1,duration:3.1,ease:'none'});
+gsap.to('.pulse-c',{x:110,y:-42, repeat:-1,duration:2.8,ease:'none'});
+
+/* ── Mini panels & bars ────────────────────── */
+gsap.to('.mini-panel',{y:-8, repeat:-1, yoyo:true, duration:2.8, stagger:.12, ease:'sine.inOut'});
+gsap.fromTo('.bar-fill',
+    {scaleX:0,transformOrigin:'left center'},
+    {scaleX:1, duration:1.2, stagger:.08, ease:'power3.out',
+     scrollTrigger:{trigger:document.body,start:'top 80%'}}
+);
+gsap.to('.predict-rings',{rotate:360, repeat:-1, duration:16, ease:'none'});
+
+/* ── Processo ──────────────────────────────── */
+gsap.fromTo('.process-copy',
+    {opacity:0,y:40},{opacity:1,y:0, duration:1, ease:'power3.out',
+     scrollTrigger:{trigger:'#processo',start:'top 80%'}}
+);
+gsap.utils.toArray('.timeline-item').forEach(item=>{
+    gsap.fromTo(item,{opacity:0,y:50},{
+        opacity:1,y:0, duration:1, ease:'power3.out',
+        scrollTrigger:{trigger:item,start:'top 82%'}
+    });
+});
+gsap.utils.toArray('.timeline-card').forEach((card,i)=>{
+    gsap.to(card,{y:i%2===0?-10:-14, repeat:-1, yoyo:true, duration:3.5+i*.2, ease:'sine.inOut'});
+});
+
+/* ── CTA ───────────────────────────────────── */
+gsap.fromTo('.cta-copy',
+    {opacity:0,y:50,scale:.98},{opacity:1,y:0,scale:1, duration:1.2, ease:'power3.out',
+     scrollTrigger:{trigger:'#contato',start:'top 78%'}}
+);
+gsap.fromTo('.cta-actions',
+    {opacity:0,y:24},{opacity:1,y:0, duration:1, ease:'power2.out', delay:.15,
+     scrollTrigger:{trigger:'#contato',start:'top 72%'}}
+);
+
+/* ── Navbar scroll ─────────────────────────── */
+window.addEventListener('scroll',()=>{
+    const h = document.getElementById('main-header');
+    if(window.scrollY>60){
+        h.style.background='rgba(0,0,0,0.75)';
+    } else {
+        h.style.background='rgba(0,0,0,0.4)';
+    }
+});
+
+/* ── Mobile menu ───────────────────────────── */
+const btn   = document.getElementById('mobile-menu-btn');
+const closeBtn = document.getElementById('mobile-close-btn');
+const menu  = document.getElementById('mobile-menu');
+
+function openMenu(){
+    menu.classList.remove('hidden');
+    menu.classList.add('flex');
+}
+function closeMenu(){
+    menu.classList.add('hidden');
+    menu.classList.remove('flex');
+}
+
+btn.addEventListener('click', openMenu);
+closeBtn.addEventListener('click', closeMenu);
+document.querySelectorAll('.mobile-nav-link').forEach(l=>l.addEventListener('click', closeMenu));
+
+/* ── Smooth scroll ─────────────────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+        const t = document.querySelector(a.getAttribute('href'));
+        if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
+    });
+});
+</script>
+
 </body>
-
-
 </html>
-
-
-
-
-
-
